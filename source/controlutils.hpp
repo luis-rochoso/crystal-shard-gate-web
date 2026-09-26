@@ -32,6 +32,39 @@ bool exitPower = false;
 
 std::unordered_map<std::string, Texture2D> textures;
 
+void loadTextures() {
+
+    Image shard = LoadImage("./assets/dragonshard.png");
+    ImageResize(&shard, 100, 100);
+
+    SetWindowIcon(shard);
+
+    textures["shard"] = LoadTextureFromImage(shard);
+
+    UnloadImage(shard);
+
+    Image delta = LoadImage("./assets/delta.png");
+    ImageResize(&delta, 25, 25);
+    Image gamma = LoadImage("./assets/gamma.png");
+    ImageResize(&gamma, 50, 50);
+    Image sigma = LoadImage("./assets/sigma.png");
+    ImageResize(&sigma, 25, 50);
+
+    textures["delta"] = LoadTextureFromImage(delta);
+    textures["gamma"] = LoadTextureFromImage(gamma);
+    textures["sigma"] = LoadTextureFromImage(sigma);
+
+    UnloadImage(delta);
+    UnloadImage(gamma);
+    UnloadImage(sigma);
+
+    Image crack = LoadImage("./assets/crack.png");
+    ImageResize(&crack, 50, 50);
+    textures["crack"] = LoadTextureFromImage(crack);
+    UnloadImage(crack);
+    
+}
+
 
 // Handling pressing crystal buttons
 void checkButtonPress() {

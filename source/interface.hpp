@@ -88,7 +88,7 @@ void drawCrystals(Texture2D shard) {
 
 }
 
-void drawButtons() {
+void drawButtons(Texture2D crack) {
 
     // Button 1
     DrawCircleV(buttonCenter[0], buttonRadius + 3, BLACK);
@@ -98,6 +98,14 @@ void drawButtons() {
     // Button 2
     DrawCircleV(buttonCenter[1], buttonRadius + 3, BLACK);
     DrawCircleV(buttonCenter[1], buttonRadius, shardLight[1] ? GREEN : RED);
+
+    // Broken button
+    Vector2 brokenButtonCenter = {buttonCenter[1].x, buttonCenter[1].y + 120};
+    DrawCircleV(brokenButtonCenter, buttonRadius + 6, BLACK);
+    DrawCircleV(brokenButtonCenter, buttonRadius, DARKGRAY);
+
+    DrawTexture(crack, brokenButtonCenter.x - buttonRadius + 3, brokenButtonCenter.y - buttonRadius, RAYWHITE);
+
 
     // Output signal
     DrawCircle(PLATE_WIDTH + 75, buttonCenter[1].y, buttonRadius / 2, exitLight ? GREEN : RED);

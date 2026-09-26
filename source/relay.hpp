@@ -26,7 +26,7 @@ struct Relay {
 
     // Position
     Vector2 origin {0, 0};
-    Vector2 center {origin.x + RELAY_WIDTH / 2, origin.y + RELAY_HEIGHT};
+    Vector2 center;
     Rectangle hitbox {origin.x, origin.y, RELAY_WIDTH, RELAY_HEIGHT};
 
     void RefreshOriginPosition() {

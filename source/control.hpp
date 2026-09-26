@@ -6,29 +6,7 @@ void init() {
 
     SetTargetFPS(60);
 
-    Image shard = LoadImage("./assets/dragonshard.png");
-    ImageResize(&shard, 100, 100);
-
-    SetWindowIcon(shard);
-
-    textures["shard"] = LoadTextureFromImage(shard);
-
-    UnloadImage(shard);
-
-    Image delta = LoadImage("./assets/delta.png");
-    ImageResize(&delta, 25, 25);
-    Image gamma = LoadImage("./assets/gamma.png");
-    ImageResize(&gamma, 50, 50);
-    Image sigma = LoadImage("./assets/sigma.png");
-    ImageResize(&sigma, 25, 50);
-
-    textures["delta"] = LoadTextureFromImage(delta);
-    textures["gamma"] = LoadTextureFromImage(gamma);
-    textures["sigma"] = LoadTextureFromImage(sigma);
-
-    UnloadImage(delta);
-    UnloadImage(gamma);
-    UnloadImage(sigma);
+    loadTextures();
 
     buildRelays();
     buildConnectors();
@@ -118,7 +96,7 @@ void render(Gamestate &state) {
     case closed:
         drawBackground();
         drawClosedPlate(screws);
-        drawButtons();
+        drawButtons(textures["crack"]);
         drawSymbols(textures["delta"], textures["gamma"], textures["sigma"]);
         break;
 
@@ -129,7 +107,7 @@ void render(Gamestate &state) {
         drawRelay(defaultOff);
         DrawCircleSector({PLATE_WIDTH + 40, buttonCenter[1].y}, buttonRadius / 2, 270.0f, 90.0f, 1, ORANGE);
         drawCrystals(textures["shard"]);
-        drawButtons();
+        drawButtons(textures["crack"]);
         drawSymbols(textures["delta"], textures["gamma"], textures["sigma"]);
 
         for (auto& [label, connector] : inputs) {
@@ -149,14 +127,14 @@ void render(Gamestate &state) {
         drawRelay(defaultOff);
         DrawCircleSector({PLATE_WIDTH + 40, buttonCenter[1].y}, buttonRadius / 2, 270.0f, 90.0f, 1, ORANGE);
         drawCrystals(textures["shard"]);
-        drawButtons();
+        drawButtons(textures["crack"]);
         drawSymbols(textures["delta"], textures["gamma"], textures["sigma"]);
         // Draw Connectors
         for (const auto& [label, connector] : inputs) {
             DrawRectangleLinesEx(connector.hook, 3, ORANGE);
         }
         for (const auto& [label, connector] : outputs) {
-            DrawRectangleLinesEx(connector.hook, 3, YELLOW);
+            DrawRectangleLinesEx(connector.hook, 3, PINK);
         }
 
         // for every connected input connector, draw a line from its hookcenter to its linked hookcenter
