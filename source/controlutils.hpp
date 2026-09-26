@@ -54,9 +54,11 @@ void toggleLights() {
 
 void buildRelays() {
     defaultOn.origin = {500, 250};
+    defaultOn.center = {575, 300};
     defaultOn.defaultMode = true;
 
-    defaultOff.origin = {300, 100};
+    defaultOff.origin = {300, 270};
+    defaultOff.center = {375, 320};
     defaultOff.defaultMode = false;
 }
 

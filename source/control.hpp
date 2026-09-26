@@ -15,6 +15,21 @@ void init() {
 
     UnloadImage(shard);
 
+    Image delta = LoadImage("./assets/delta.png");
+    ImageResize(&delta, 25, 25);
+    Image gamma = LoadImage("./assets/gamma.png");
+    ImageResize(&gamma, 50, 50);
+    Image sigma = LoadImage("./assets/sigma.png");
+    ImageResize(&sigma, 25, 50);
+
+    textures["delta"] = LoadTextureFromImage(delta);
+    textures["gamma"] = LoadTextureFromImage(gamma);
+    textures["sigma"] = LoadTextureFromImage(sigma);
+
+    UnloadImage(delta);
+    UnloadImage(gamma);
+    UnloadImage(sigma);
+
     buildRelays();
     buildConnectors();
 }
@@ -104,6 +119,7 @@ void render(Gamestate &state) {
         drawBackground();
         drawClosedPlate(screws);
         drawButtons();
+        drawSymbols(textures["delta"], textures["gamma"], textures["sigma"]);
         break;
 
     case open:
@@ -111,8 +127,10 @@ void render(Gamestate &state) {
         drawOpenPlate();
         drawRelay(defaultOn);
         drawRelay(defaultOff);
+        DrawCircleSector({PLATE_WIDTH + 40, buttonCenter[1].y}, buttonRadius / 2, 270.0f, 90.0f, 1, ORANGE);
         drawCrystals(textures["shard"]);
         drawButtons();
+        drawSymbols(textures["delta"], textures["gamma"], textures["sigma"]);
 
         for (auto& [label, connector] : inputs) {
             if (connector.isConnected) {
@@ -129,8 +147,10 @@ void render(Gamestate &state) {
         drawOpenPlate();
         drawRelay(defaultOn);
         drawRelay(defaultOff);
+        DrawCircleSector({PLATE_WIDTH + 40, buttonCenter[1].y}, buttonRadius / 2, 270.0f, 90.0f, 1, ORANGE);
         drawCrystals(textures["shard"]);
         drawButtons();
+        drawSymbols(textures["delta"], textures["gamma"], textures["sigma"]);
         // Draw Connectors
         for (const auto& [label, connector] : inputs) {
             DrawRectangleLinesEx(connector.hook, 3, ORANGE);

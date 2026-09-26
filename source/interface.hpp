@@ -103,6 +103,15 @@ void drawButtons() {
     DrawCircle(PLATE_WIDTH + 75, buttonCenter[1].y, buttonRadius / 2, exitLight ? GREEN : RED);
 }
 
+void drawSymbols(Texture2D delta, Texture2D gamma, Texture2D sigma) {
+
+    DrawTexture(gamma, buttonCenter[0].x - 20, buttonCenter[0].y - 30, RAYWHITE);
+    DrawTexture(sigma, buttonCenter[1].x - 8, buttonCenter[1].y - 30, RAYWHITE);
+
+    DrawTexture(delta, PLATE_WIDTH + 62.5f, buttonCenter[1].y - 50, RAYWHITE);
+
+}
+
 void drawRelay(Relay relay) {
 
     Rectangle mainframe = {relay.origin.x, relay.origin.y, RELAY_WIDTH, RELAY_HEIGHT};
@@ -115,4 +124,24 @@ void drawRelay(Relay relay) {
     DrawCircleSector(relay.control->hookCenter, buttonRadius / 2, 270.0f, 90.0f, 1, ORANGE);
     DrawCircleSector(relay.input->hookCenter, buttonRadius / 2, 270.0f, 90.0f, 1, ORANGE);
 
+    DrawCircleV(relay.output->hookCenter, buttonRadius / 2, PINK);
+
+    // Interior Wiring
+    Color wireColor = relay.input->isPowered ? GREEN : RED;
+    if (relay.defaultMode == true) {
+        if (relay.control->isPowered) {
+            DrawLineBezier(relay.input->hookCenter, relay.center, 2.0f, wireColor);
+        }
+        else {
+            DrawLineBezier(relay.input->hookCenter, relay.output->hookCenter, 2.0f, wireColor);
+        }
+    }
+    else {
+        if (relay.control->isPowered) {
+            DrawLineBezier(relay.input->hookCenter, relay.output->hookCenter, 2.0f, wireColor);
+        }
+        else {
+            DrawLineBezier(relay.input->hookCenter, relay.center, 2.0f, wireColor);
+        }
+    }
 }
