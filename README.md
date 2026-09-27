@@ -11,3 +11,6 @@ then run with
 ```
 ./build/eberronShardGate
 ```
+
+# Update
+Ran the session and the players loved the puzzle! They managed to figure it out in 50 minutes and it took a lot of collaborative thinking. It was very fun!
