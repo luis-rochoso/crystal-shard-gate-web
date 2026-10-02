@@ -194,4 +194,8 @@ void dragRelay(Relay* relay) {
     if (relay->origin.y + RELAY_HEIGHT > PLATE_Y + PLATE_HEIGHT) {
         relay->origin.y = PLATE_Y + PLATE_HEIGHT - RELAY_HEIGHT;
     }
+
+    // calculate the relay's center again because moving the mouse near/past the
+    // panel borders causes it to not update correctly
+    relay->center = {relay->origin.x + RELAY_WIDTH / 2, relay->origin.y + RELAY_HEIGHT / 2};
 }
