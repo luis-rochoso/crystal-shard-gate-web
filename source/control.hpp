@@ -46,12 +46,14 @@ void update(Gamestate &state) {
     case open:    
 
         if (CheckCollisionPointRec(mousePoint, defaultOn.hitbox) and IsMouseButtonDown(MOUSE_BUTTON_LEFT)
-            and !defaultOn.mouseOverConnectors(mousePoint)) {
-            dragRelay(defaultOn);
+            and !defaultOn.mouseOverConnectors(mousePoint) ) {
+            draggedRelay = &defaultOn;
+            state = draggingRelay;
         }
-        if (CheckCollisionPointRec(mousePoint, defaultOff.hitbox) and IsMouseButtonDown(MOUSE_BUTTON_LEFT)
+        else if (CheckCollisionPointRec(mousePoint, defaultOff.hitbox) and IsMouseButtonDown(MOUSE_BUTTON_LEFT)
             and !defaultOff.mouseOverConnectors(mousePoint)) {
-            dragRelay(defaultOff);   
+            draggedRelay = &defaultOff;
+            state = draggingRelay;
         }
 
         defaultOn.refreshHookPositions();
@@ -63,20 +65,38 @@ void update(Gamestate &state) {
 
         checkButtonPress();
         toggleLights();
-        if (clickedInputConnector()) {state = dragging;}
+        if (clickedInputConnector()) {state = draggingWire;}
+        break;
+    
+    case draggingRelay:
+    
+        dragRelay(draggedRelay);
+
+        defaultOn.refreshHookPositions();
+        defaultOff.refreshHookPositions();
+
+        powerConnectors();
+        defaultOn.powerRelay();
+        defaultOff.powerRelay();
+
+        if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT)) {
+            draggedRelay = nullptr;
+            state = open;
+        }
+
         break;
 
-    case dragging:
+    case draggingWire:
 
         powerConnectors();
 
-        dragLineStartPoint = dragged->hookCenter;
+        dragLineStartPoint = draggedConnector->hookCenter;
         dragLineEndPoint = mousePoint;
 
         if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT)) {
 
             if (!releasedOverOutputConnector()) {
-                dragged = nullptr;
+                draggedConnector = nullptr;
             }
             state = open;
         }
@@ -120,7 +140,28 @@ void render(Gamestate &state) {
         
         break;
 
-    case dragging:
+    case draggingRelay:
+        
+        drawBackground();
+        drawOpenPlate();
+        drawRelay(defaultOn);
+        drawRelay(defaultOff);
+        DrawCircleSector({PLATE_WIDTH + 40, buttonCenter[1].y}, buttonRadius / 2, 270.0f, 90.0f, 1, ORANGE);
+        drawCrystals(textures["shard"]);
+        drawButtons(textures["crack"]);
+        drawSymbols(textures["delta"], textures["gamma"], textures["sigma"]);
+
+        for (auto& [label, connector] : inputs) {
+            if (connector.isConnected) {
+                DrawLine(connector.hookCenter.x, connector.hookCenter.y,
+                         connector.linked->hookCenter.x, connector.linked->hookCenter.y,
+                         connector.isPowered ? GREEN : RED);
+            }
+        }
+
+        break;
+    
+    case draggingWire:
         drawBackground();
         drawOpenPlate();
         drawRelay(defaultOn);

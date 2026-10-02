@@ -14,8 +14,9 @@ std::unordered_map<std::string, InputConnector::OutputConnector> outputs;
 
 Relay defaultOn;
 Relay defaultOff;
+Relay* draggedRelay = nullptr;
 
-InputConnector* dragged = nullptr;
+InputConnector* draggedConnector = nullptr;
 
 struct Link {
     Vector2 start;
@@ -155,8 +156,8 @@ bool clickedInputConnector() {
     // Checks if the player clicked on an input hook
     for (auto& [label, connector] : inputs) {
         if (CheckCollisionPointRec(mousePoint, connector.hook) and IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
-            dragged = &connector;
-            dragged->isConnected = false;
+            draggedConnector = &connector;
+            draggedConnector->isConnected = false;
             return true;
         }
     }
@@ -167,31 +168,30 @@ bool releasedOverOutputConnector() {
     // Checks if the link was released over an output hook
     for (auto& [label, connector] : outputs) {
         if (CheckCollisionPointRec(mousePoint, connector.hook) and IsMouseButtonReleased(MOUSE_BUTTON_LEFT)) {
-            dragged->linked = &connector; // Input's connected only to this output
-            dragged->isConnected = true;
-            connector.linkeds.push_back(dragged); // Output adds this input to its list of connections
+            draggedConnector->linked = &connector; // Input's connected only to this output
+            draggedConnector->isConnected = true;
+            connector.linkeds.push_back(draggedConnector); // Output adds this input to its list of connections
             return true;
         }
     }
     return false;
 }
 
-void dragRelay(Relay &relay) {
+void dragRelay(Relay* relay) {
 
-    relay.center = mousePoint;
-    relay.RefreshOriginPosition();
+    relay->center = mousePoint;
+    relay->RefreshOriginPosition();
 
-    if (relay.origin.x < PLATE_X) {
-        relay.origin.x = PLATE_X;
+    if (relay->origin.x < PLATE_X) {
+        relay->origin.x = PLATE_X;
     }
-    if (relay.origin.x + RELAY_WIDTH > PLATE_X + PLATE_WIDTH) {
-        relay.origin.x = PLATE_X + PLATE_WIDTH - RELAY_WIDTH;
+    if (relay->origin.x + RELAY_WIDTH > PLATE_X + PLATE_WIDTH) {
+        relay->origin.x = PLATE_X + PLATE_WIDTH - RELAY_WIDTH;
     }
-    if (relay.origin.y < PLATE_Y) {
-        relay.origin.y = PLATE_Y;
+    if (relay->origin.y < PLATE_Y) {
+        relay->origin.y = PLATE_Y;
     }
-    if (relay.origin.y + RELAY_HEIGHT > PLATE_Y + PLATE_HEIGHT) {
-        relay.origin.y = PLATE_Y + PLATE_HEIGHT - RELAY_HEIGHT;
+    if (relay->origin.y + RELAY_HEIGHT > PLATE_Y + PLATE_HEIGHT) {
+        relay->origin.y = PLATE_Y + PLATE_HEIGHT - RELAY_HEIGHT;
     }
-
 }
