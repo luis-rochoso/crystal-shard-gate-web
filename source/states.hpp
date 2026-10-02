@@ -1,3 +1,3 @@
 enum Gamestate {
-    closed, open, draggingWire, draggingRelay, end
+    closed, open, draggingWire, draggingRelay
 };
