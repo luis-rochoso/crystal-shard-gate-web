@@ -1,3 +1,8 @@
+#ifndef STATES_HPP
+#define STATES_HPP
+
 enum Gamestate {
-    closed, open, draggingWire, draggingRelay
+    start, closed, open, draggingWire, draggingRelay, end
 };
+
+#endif

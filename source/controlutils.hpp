@@ -33,6 +33,11 @@ bool shardPower[2] = {false, false};
 bool exitPower = false;
 bool* locks = new bool[4] {false, false, false, false};
 
+bool newGamePlus = false;
+
+int waitUntilFrame = 0;
+int waitDuration = 0;
+
 std::unordered_map<std::string, Texture2D> textures;
 
 void loadTextures() {

@@ -14,6 +14,7 @@ void init() {
 
 void update(Gamestate &state) {
 
+    bool puzzleSolved = true;
     mousePoint = GetMousePosition();
     int holeCounter = 0;
     InputConnector::OutputConnector target;
@@ -23,6 +24,23 @@ void update(Gamestate &state) {
 
     switch (state) {
 
+    case start:
+
+        // Pressing ENTER skips the opening text
+        if (IsKeyPressed(KEY_ENTER)) {
+            state = closed;
+            frameCounter = 0;
+            break;
+        }
+
+        // Holding SPACE speeds its animation
+        if (IsKeyDown(KEY_SPACE)) {
+            frameCounter += 8;
+        }
+        else frameCounter += 2;
+
+        break;
+    
     case closed:
         for (int i = 0; i < 4; ++i) {
             if (!screws[i]) {
@@ -44,6 +62,19 @@ void update(Gamestate &state) {
         break;
     
     case open:    
+
+        for (int i = 0; i < 4; ++i) {
+            if (!locks[i]) {
+                puzzleSolved = false;
+            }
+        }
+
+        if (not newGamePlus) {
+            if (puzzleSolved) {
+                state = end;
+                break;
+            }
+        }
 
         if (CheckCollisionPointRec(mousePoint, defaultOn.hitbox) and IsMouseButtonDown(MOUSE_BUTTON_LEFT)
             and !defaultOn.mouseOverConnectors(mousePoint) ) {
@@ -106,6 +137,27 @@ void update(Gamestate &state) {
         }
         break;
     
+    case end:
+
+        if (IsKeyPressed(KEY_B)) {
+            state = open;
+            newGamePlus = true;
+        }
+
+        // Pressing ENTER skips the text animation
+        if (IsKeyPressed(KEY_ENTER)) {
+            frameCounter = 2690;
+            break;
+        }
+
+        // Holding SPACE speeds its animation
+        if (IsKeyDown(KEY_SPACE)) {
+            frameCounter += 16;
+        }
+        else frameCounter += 4;
+
+        break;
+
     default:
         break;
     }
@@ -117,6 +169,21 @@ void render(Gamestate &state) {
     BeginDrawing();
     switch (state)
     {
+
+    case start:
+        
+        ClearBackground(BLACK);
+
+        drawMessage(state);
+        if (frameCounter > 180 and frameCounter < 3240) {
+            DrawText("[SPACE] to speed up", 10, 435, 10, GREEN);
+        }
+        if (frameCounter >= 3300) {
+            DrawText("Press [ENTER] to look at the panel.", 100, 350, 30, GREEN);
+        }
+
+        break;
+
     case closed:
         drawBackground();
         drawClosedPlate(screws);
@@ -200,6 +267,19 @@ void render(Gamestate &state) {
 
         break;
     
+    case end:
+        ClearBackground(BLACK);
+        drawMessage(state);
+
+        if (frameCounter > 2870) {
+            DrawText("Thanks for playing!", 100, 300, 30, RAYWHITE);
+        }
+        if (frameCounter > 2990) {
+            DrawText("Press [ESC] to close the game\nPress [B] to go back and mess around", 100, 350, 20, RAYWHITE);
+        }
+        
+        break;
+
     default:
         break;
     }

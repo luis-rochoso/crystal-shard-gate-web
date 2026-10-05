@@ -4,7 +4,7 @@ int main() {
 
     init();
 
-    Gamestate state {closed};
+    Gamestate state {start};
 
     while (!WindowShouldClose()) {
         update(state);

@@ -1,4 +1,6 @@
 #include "relay.hpp"
+#include "states.hpp"
+#include <string>
 
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 450;
@@ -9,6 +11,8 @@ const float PLATE_WIDTH = PLATE_X * 14;
 const float PLATE_HEIGHT = PLATE_Y * 8;
 
 const float buttonRadius = 25;
+
+size_t frameCounter = 0;
 
 struct Circle {
     Vector2 center;
@@ -31,6 +35,31 @@ Vector2 screwCenter[4] = {
 
 bool shardLight[2] = {false, false};
 bool exitLight = false;
+
+void drawMessage(Gamestate state) {
+
+    const char openingText[324] {
+        "You descended into the sewers of the greatest city\nin the world.\n\nA map to a forgotten dungeon, buried by the ever-growing\nmetropolis above, is your only guide amidst the dark and wet\ntunnels.\n\nEventually, your way is blocked by a heavy metal hatch.\nIt won't budge, but you find its control panel on the wall to\nyour right."
+    };
+    const char endingText[272] {
+        "The hatch begins to open with a menacing and metallic creak,\nas the four locks that kept it shut were released.\n\nBeyond it lies a dusty and even darker stairway, leading to\nunfathomable depths.\n\nYour curiosity drags you further in, for your adventure has\nonly just begun."
+    };
+
+    switch (state)
+    {
+    case start:
+        DrawText(TextSubtext(openingText, 0, frameCounter/10), 100, 100, 20, GREEN);
+        break;
+    
+    case end:
+        DrawText(TextSubtext(endingText, 0, frameCounter/10), 100, 100, 20, GREEN);
+        break;
+    
+    default:
+        break;
+    }
+
+}
 
 void drawBackground() {
     ClearBackground(GRAY);
