@@ -29,7 +29,9 @@ Vector2 dragLineEndPoint { 0.0f, 0.0f };
 
 bool* screws = new bool[4] {true, true, true, true};
 bool shardPower[2] = {false, false};
+
 bool exitPower = false;
+bool* locks = new bool[4] {false, false, false, false};
 
 std::unordered_map<std::string, Texture2D> textures;
 
@@ -84,6 +86,36 @@ void toggleLights() {
         shardLight[i] = shardPower[i];
     }
     exitLight = exitPower;
+}
+
+void updateLocks(Gamestate state) {
+
+    if (state == draggingWire) {
+        for (int i = 0; i < 4; ++i) {
+            locks[i] = false;
+        }
+        return;
+    }
+
+    // not A and not B
+    if (!outputs["shard0"].isPowered and !outputs["shard1"].isPowered) {
+        if (exitPower) locks[0] = true;
+    }
+    // not A and B
+    else if (!outputs["shard0"].isPowered and outputs["shard1"].isPowered) {
+        if (exitPower) locks[1] = true;
+    }
+    // A and not B
+    else if (outputs["shard0"].isPowered and !outputs["shard1"].isPowered) {
+        if (exitPower) locks[2] = true;
+    }
+    // A and B
+    else if (outputs["shard0"].isPowered and outputs["shard1"].isPowered) {
+        if (exitPower) locks[3] = false;
+        else locks[3] = true;
+        
+    }
+
 }
 
 void buildRelays() {

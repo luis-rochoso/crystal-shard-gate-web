@@ -153,3 +153,23 @@ void drawRelay(Relay relay) {
         }
     }
 }
+
+void drawLockLights(bool* locks) {
+
+    const float LIGHT_X = PLATE_WIDTH + 75 - buttonRadius / 2;
+    const float LOCKLIGHT_WIDTH = buttonRadius;
+    const float LOCKLIGHT_HEIGHT = (SCREEN_HEIGHT / 60);
+
+    Rectangle lockLights[4] = {
+        {LIGHT_X, 50, LOCKLIGHT_WIDTH, LOCKLIGHT_HEIGHT},
+        {LIGHT_X, 80, LOCKLIGHT_WIDTH, LOCKLIGHT_HEIGHT},
+        {LIGHT_X, 110, LOCKLIGHT_WIDTH, LOCKLIGHT_HEIGHT},
+        {LIGHT_X, 140, LOCKLIGHT_WIDTH, LOCKLIGHT_HEIGHT} 
+    };
+
+    for (int i = 0; i < 4; ++i) {
+        DrawRectangleRec(lockLights[i], locks[i] ? GREEN : RED);
+        DrawRectangleLinesEx(lockLights[i], 2, BLACK);
+    }
+
+}

@@ -65,6 +65,8 @@ void update(Gamestate &state) {
 
         checkButtonPress();
         toggleLights();
+        updateLocks(state);
+
         if (clickedInputConnector()) {state = draggingWire;}
         break;
     
@@ -87,6 +89,8 @@ void update(Gamestate &state) {
         break;
 
     case draggingWire:
+
+        updateLocks(state);
 
         powerConnectors();
 
@@ -118,6 +122,7 @@ void render(Gamestate &state) {
         drawClosedPlate(screws);
         drawButtons(textures["crack"]);
         drawSymbols(textures["delta"], textures["gamma"], textures["sigma"]);
+        drawLockLights(locks);
         break;
 
     case open:
@@ -129,6 +134,7 @@ void render(Gamestate &state) {
         drawCrystals(textures["shard"]);
         drawButtons(textures["crack"]);
         drawSymbols(textures["delta"], textures["gamma"], textures["sigma"]);
+        drawLockLights(locks);
 
         for (auto& [label, connector] : inputs) {
             if (connector.isConnected) {
@@ -150,6 +156,7 @@ void render(Gamestate &state) {
         drawCrystals(textures["shard"]);
         drawButtons(textures["crack"]);
         drawSymbols(textures["delta"], textures["gamma"], textures["sigma"]);
+        drawLockLights(locks);
 
         for (auto& [label, connector] : inputs) {
             if (connector.isConnected) {
@@ -170,6 +177,8 @@ void render(Gamestate &state) {
         drawCrystals(textures["shard"]);
         drawButtons(textures["crack"]);
         drawSymbols(textures["delta"], textures["gamma"], textures["sigma"]);
+        drawLockLights(locks);
+
         // Draw Connectors
         for (const auto& [label, connector] : inputs) {
             DrawRectangleLinesEx(connector.hook, 3, ORANGE);
@@ -202,5 +211,6 @@ void shutdown() {
         UnloadTexture(it.second);
     }
     delete[] screws;
+    delete[] locks;
     CloseWindow();
 }
