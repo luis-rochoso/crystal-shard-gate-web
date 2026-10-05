@@ -2,7 +2,7 @@
 
 void init() {
 
-    InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Controle da Escotilha");
+    InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Hatch Control Panel");
 
     SetTargetFPS(60);
 
