@@ -2,7 +2,7 @@ Quick project I made to impress my friends at the D&D table. They will need to s
 Completely inspired by the first level of [NandGame](https://nandgame.com/).
 
 ### Toolset
-Game programmed in C++ using [raylib](https://www.raylib.com/), built with CMake and made playable on HTML5 using [emscripten](https://emscripten.org/).
+Game programmed in C++ using [raylib](https://www.raylib.com/), built with [CMake](https://cmake.org/) and made playable on HTML5 using [emscripten](https://emscripten.org/).
 
 ### Motivation
 This web version was made because I wanted to figure out how to run a C++ program on a browser.
