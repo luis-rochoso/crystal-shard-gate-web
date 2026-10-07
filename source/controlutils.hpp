@@ -1,4 +1,4 @@
-#include <bits/stdc++.h>
+#include <unordered_map>
 #include <string>
 #include "states.hpp"
 #include "connectors.hpp"
@@ -42,7 +42,7 @@ std::unordered_map<std::string, Texture2D> textures;
 
 void loadTextures() {
 
-    Image shard = LoadImage("./assets/dragonshard.png");
+    Image shard = LoadImage("/home/rochoso/Desktop/sideProjects/eberron-shard-gate/assets/dragonshard.png");
     ImageResize(&shard, 100, 100);
 
     SetWindowIcon(shard);
@@ -51,11 +51,11 @@ void loadTextures() {
 
     UnloadImage(shard);
 
-    Image delta = LoadImage("./assets/delta.png");
+    Image delta = LoadImage("/home/rochoso/Desktop/sideProjects/eberron-shard-gate/assets/delta.png");
     ImageResize(&delta, 25, 25);
-    Image gamma = LoadImage("./assets/gamma.png");
+    Image gamma = LoadImage("/home/rochoso/Desktop/sideProjects/eberron-shard-gate/assets/gamma.png");
     ImageResize(&gamma, 50, 50);
-    Image sigma = LoadImage("./assets/sigma.png");
+    Image sigma = LoadImage("/home/rochoso/Desktop/sideProjects/eberron-shard-gate/assets/sigma.png");
     ImageResize(&sigma, 25, 50);
 
     textures["delta"] = LoadTextureFromImage(delta);
@@ -66,7 +66,7 @@ void loadTextures() {
     UnloadImage(gamma);
     UnloadImage(sigma);
 
-    Image crack = LoadImage("./assets/crack.png");
+    Image crack = LoadImage("/home/rochoso/Desktop/sideProjects/eberron-shard-gate/assets/crack.png");
     ImageResize(&crack, 50, 50);
     textures["crack"] = LoadTextureFromImage(crack);
     UnloadImage(crack);

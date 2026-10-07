@@ -33,8 +33,8 @@ void update(Gamestate &state) {
             break;
         }
 
-        // Holding SPACE speeds its animation
-        if (IsKeyDown(KEY_SPACE)) {
+        // Holding S speeds its animation
+        if (IsKeyDown(KEY_S)) {
             frameCounter += 8;
         }
         else frameCounter += 2;
@@ -150,8 +150,8 @@ void update(Gamestate &state) {
             break;
         }
 
-        // Holding SPACE speeds its animation
-        if (IsKeyDown(KEY_SPACE)) {
+        // Holding S speeds its animation
+        if (IsKeyDown(KEY_S)) {
             frameCounter += 16;
         }
         else frameCounter += 4;
@@ -176,7 +176,7 @@ void render(Gamestate &state) {
 
         drawMessage(state);
         if (frameCounter > 180 and frameCounter < 3240) {
-            DrawText("[SPACE] to speed up", 10, 435, 10, GREEN);
+            DrawText("[S] to speed up", 10, 435, 10, GREEN);
         }
         if (frameCounter >= 3300) {
             DrawText("Press [ENTER] to look at the panel.", 100, 350, 30, GREEN);

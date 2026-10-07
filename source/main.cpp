@@ -1,15 +1,34 @@
 #include "control.hpp"
 
+// #define PLATFORM_WEB
+
+#if defined(PLATFORM_WEB)
+    #include <emscripten/emscripten.h>
+#endif
+
+Gamestate state {start};
+
+void updateRender() {
+    update(state);
+    render(state);
+};
+
 int main() {
 
     init();
 
-    Gamestate state {start};
+    #if defined(PLATFORM_WEB)
+        emscripten_set_main_loop(updateRender, 0, 1);
+    #else
+        SetTargetFPS(60);   // Set our game to run at 60 frames-per-second
+        //--------------------------------------------------------------------------------------
 
-    while (!WindowShouldClose()) {
-        update(state);
-        render(state);
-    }
+        // Main game loop
+        while (!WindowShouldClose())    // Detect window close button or ESC key
+        {
+            updateRender();
+        }
+    #endif
 
     shutdown();
 

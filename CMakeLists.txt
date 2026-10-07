@@ -2,6 +2,12 @@ cmake_minimum_required(VERSION 3.5)
 project(eberronShardGate VERSION 0.1 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 20)
 
+# Adding emscripten config
+if (EMSCRIPTEN)
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -s USE_GLFW=3 -s ASSERTIONS=1 -s WASM=1 -s ASYNCIFY -s GL_ENABLE_GET_PROC_ADDRESS=1 --preload-file ${CMAKE_CURRENT_SOURCE_DIR}/assets")
+    set(CMAKE_EXECUTABLE_SUFFIX ".html") # This line is used to set your executable to build with the emscripten html template so that you can directly open it.
+endif ()
+
 # Adding Raylib
 include(FetchContent)
 set(FETCHCONTENT_QUIET FALSE)

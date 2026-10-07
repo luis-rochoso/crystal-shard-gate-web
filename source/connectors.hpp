@@ -1,6 +1,7 @@
 #ifndef CONNECTORS_HPP
 #define CONNECTORS_HPP
 
+#include <vector>
 #include "raylib.h"
 
 struct InputConnector {
